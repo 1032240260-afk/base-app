@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prompt-Hook — Structured prompts for coding agents</title>
+<meta name="description" content="Assemble structured, agent-specific coding prompts by dragging stack blocks onto a schematic. Built for Claude Code, Codex, DeepSeek, Kimi K2 and more.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><text y=%2220%22 font-size=%2222%22>&#x2941;</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="grid-backdrop" aria-hidden="true"></div>
+
+<header class="site-header">
+  <div class="brand">
+    <span class="brand-mark" aria-hidden="true">
+      <svg viewBox="0 0 40 40" width="30" height="30">
+        <path d="M8 6 V20 Q8 26 14 26 H26" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+        <circle cx="8" cy="6" r="2.6" fill="currentColor"/>
+        <circle cx="26" cy="26" r="2.6" fill="currentColor"/>
+        <path d="M26 26 L33 33" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+      </svg>
+    </span>
+    <div>
+      <p class="brand-name">PROMPT&#8288;<span>&#8942;</span>&#8288;HOOK</p>
+      <p class="brand-tag">Assemble the exact prompt your agent needs — stack by stack.</p>
+    </div>
+  </div>
+  <a class="header-link" href="https://render.com" target="_blank" rel="noopener">Deployed as a static site on Render ↗</a>
+</header>
+
+<nav class="step-rail" id="step-rail" aria-label="Build steps">
+  <ol>
+    <li data-step="1" class="rail-step is-active"><span class="rail-num">01</span><span class="rail-label">Agent</span></li>
+    <li data-step="2" class="rail-step"><span class="rail-num">02</span><span class="rail-label">Project</span></li>
+    <li data-step="3" class="rail-step"><span class="rail-num">03</span><span class="rail-label">Stack</span></li>
+    <li data-step="4" class="rail-step"><span class="rail-num">04</span><span class="rail-label">Task</span></li>
+  </ol>
+</nav>
+
+<main class="layout">
+  <div class="builder">
+
+    <section class="panel" id="section-agent" data-step="1">
+      <div class="panel-head">
+        <h2><span class="panel-index">01</span> Choose a coding agent</h2>
+        <p class="panel-sub">Every agent reads instructions differently. Pick the one you're driving, and the prompt below will follow its own conventions.</p>
+      </div>
+      <div class="card-grid" id="agent-grid"></div>
+      <p class="convention-note" id="agent-note" hidden></p>
+    </section>
+
+    <section class="panel is-locked" id="section-project" data-step="2">
+      <div class="panel-head">
+        <h2><span class="panel-index">02</span> Choose a project type</h2>
+        <p class="panel-sub">This decides which stack blocks show up next.</p>
+      </div>
+      <div class="card-grid" id="project-grid"></div>
+    </section>
+
+    <section class="panel is-locked" id="section-stack" data-step="3">
+      <div class="panel-head">
+        <h2><span class="panel-index">03</span> Build the stack</h2>
+        <p class="panel-sub">Drag a block onto the schematic, or tap it to hook it in. One choice per lane, extras stack freely.</p>
+      </div>
+      <div class="stack-workspace">
+        <div class="palette" id="palette"></div>
+        <div class="dropzone" id="dropzone">
+          <p class="dropzone-hint" id="dropzone-hint">Your stack will hook together here</p>
+          <ol class="stack-list" id="stack-list"></ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel is-locked" id="section-task" data-step="4">
+      <div class="panel-head">
+        <h2><span class="panel-index">04</span> Describe the task</h2>
+        <p class="panel-sub">Plain language is fine — the agent's template will structure it for you.</p>
+      </div>
+      <label class="field-label" for="project-name">Project name <span>(optional)</span></label>
+      <input type="text" id="project-name" class="text-input" placeholder="e.g. Northwind Orders Dashboard" maxlength="80">
+      <label class="field-label" for="task-desc">What should the agent do?</label>
+      <textarea id="task-desc" class="text-area" rows="5" placeholder="e.g. Add a paginated /api/orders endpoint that filters by status and date range, and wire it into the existing orders table component."></textarea>
+    </section>
+
+  </div>
+
+  <aside class="output-panel" id="output-panel">
+    <div class="output-head">
+      <h2>Generated prompt</h2>
+      <div class="output-actions">
+        <button class="btn btn-ghost" id="reset-btn" type="button">Reset</button>
+        <button class="btn btn-ghost" id="download-btn" type="button" disabled>Download .md</button>
+        <button class="btn btn-primary" id="copy-btn" type="button" disabled>Copy prompt</button>
+      </div>
+    </div>
+    <div class="output-meta" id="output-meta"></div>
+    <pre class="output-body" id="output-body"><code id="output-code">// Pick an agent and a project type — your structured prompt will hook together here.</code></pre>
+  </aside>
+</main>
+
+<footer class="site-footer">
+  <p>Prompt-Hook — a static prompt composer for coding agents. No accounts, no server, no data leaves your browser.</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
